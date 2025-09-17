@@ -12,23 +12,25 @@ class Avatar():
         #--trusted-host pypi.org --trusted-host files.pythonhosted.org
 
     '''
-    def __init__(self,name=None, useSR=True,vix=1):
+    def __init__(self,name=None, useSR=True, show=True,vix=0):
         '''
         Constructor
         '''''
         if name:
             self.__name = name
 
+        self.__show = show
         self.__useSR = useSR
         self.__initVoice(vix)
         self.__initSR()
 
-    def __initVoice(self,vix=1):
+    def __initVoice(self,vix=None):
         '''
         Method: Initialise Text to Speech
         '''
         self.__engine = pyttsx4.init()
         self.__voices = self.__engine.getProperty('voices')
+        
         self.__vix = vix
         self.__rate = 250
         self.__voice = self.__voices[self.__vix].id
@@ -53,8 +55,12 @@ class Avatar():
         :param rate: if specified, set the speaking rate
 
         '''
+        if show is None:
+            show = self.__show
         if show:
-            print(f"{words} ")
+                print(f"{words}")
+                   
+        
         if rate:
             self.__engine.setProperty('rate', rate)
         self.__engine.say(words, self.__name)
