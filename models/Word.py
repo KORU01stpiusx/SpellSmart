@@ -1,4 +1,4 @@
-from Database import Database
+from models.Database import Database
 
 class Word(Database):
     '''
@@ -79,8 +79,21 @@ class Word(Database):
         result = db.query(sql, params)
         if result:
             for row in result:
+                return cls(row["word"], row["isUsed"])
         else:
             return None
+        
+    @classmethod
+    def resetWords(cls):
+        db = Database()
+        sql = "SELECT * FROM words"
+        params = tuple()
+        result = db.query(sql, params)
+        if result:
+            for row in result:
+                word = cls(row["word"], row["isUsed"])
+                word.setIsUsed(False)
+                word.save()
         
         
     def save(self):
