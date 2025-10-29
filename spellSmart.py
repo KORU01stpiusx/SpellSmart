@@ -11,7 +11,11 @@ from utilities.Avatar import Avatar
 from utilities.Choice import Choice
 from utilities.NLP import NLP
 
-Word.resetWords()
+from math import *
+
+wordCls = Word()
+
+wordCls.resetWords()
 
 
 class SpellSmart(Avatar):
@@ -20,6 +24,7 @@ class SpellSmart(Avatar):
 
         super().__init__(name, userSR, show)
         self.say(f"Hello! Welcome to spell smart! My name is {self.getName()}. I will help you practice your spelling skills.")
+        self.maxWords = 5
 
     def getWord(self):
         word = Word.getRandomWord()
@@ -29,12 +34,9 @@ class SpellSmart(Avatar):
         if len(answer) > len(word.getWord()):
                 self.say("You have put to many letters please try again")
         
-       
-   
-   
    
     def spellWord(self, word, answer=None):
-        self.say(f"You spelt the word: {word.getWord()} as follows:")
+        self.say(f"You spelt the word: {word.getWord()} as follows:", show=False)
         
         for letter in answer:
             self.say(letter.upper())
@@ -48,11 +50,49 @@ class SpellSmart(Avatar):
             word.save()
         # self.say(f"You got {rightLetters} out of {len(word)} letters correct")
 
-   
+    def play(self):
+        
+        
+        # get student 
 
-def test():
+        # loop spelling until words spelt - e.g max 5 words - add result for each word
+        self.wordsSpelt = 0
+        wordSpeltCorrect = False
+        completedSpelling = False
+
+        while self.wordsSpelt < self.maxWords:
+            # get a word
+            word = wordCls.getRandomWord()
+
+            attempts = 0
+            result = 0
+            speltWord = ''
+            # loop spelling word until get spelt correct
+            if completedSpelling == False:
+                self.say(f'Please spell {word}', show=False)
+                wordSpeltCorrect == False
+            while wordSpeltCorrect == False:
+                speltWord = input('Please spell the word here: ')
+
+                if speltWord.lower() == word.lower():
+                    self.say('You spelt the word correctly')
+                    wordSpeltCorrect == True
+                    break
+                    # wordCls.save()
+                else:
+                    rat = floor(fuzz.ratio(word, speltWord))
+                    self.say(f'You spelt the word wrong. You got the word {rat} percent correct. Please try again')
+                    
+                
+
+            # write word and attempts to results table
+
+        # show results
+
+
+def main():
     game = SpellSmart()
-    game.getWord()
+    game.play()
 
     count = 0
 
@@ -63,6 +103,9 @@ def test():
             break
 
         count += 1
-   
+
 if __name__ == "__main__":
-    test()
+    main()
+  
+
+

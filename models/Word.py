@@ -79,7 +79,9 @@ class Word(Database):
         result = db.query(sql, params)
         if result:
             for row in result:
-                return cls(row["word"], row["isUsed"])
+                # print(row['word'])
+                return row['word']
+                # return cls(row["word"], row["isUsed"])
         else:
             return None
         
