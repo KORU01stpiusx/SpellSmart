@@ -13,6 +13,8 @@ from utilities.NLP import NLP
 
 from math import *
 
+from login import *
+
 wordCls = Word()
 
 wordCls.resetWords()
@@ -92,6 +94,9 @@ class SpellSmart(Avatar):
 
 def main():
     game = SpellSmart()
+    NEWLOGIN = loginFunc()
+    NEWLOGIN.askForName()
+    NEWLOGIN.findUsername()
     game.play()
 
     count = 0
@@ -107,5 +112,3 @@ def main():
 if __name__ == "__main__":
     main()
   
-
-
